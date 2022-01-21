@@ -26,6 +26,20 @@ php-fpm.conf
 php -m
 ```
 
+檢視擴展套件是否support
+```
+php -i
+```
+
+## 安裝套件注意事項
+
+在安裝某些擴展套件時，會需要一些相依性套件，例如以下套件
+
+```
+RUN apt-get install -y curl && docker-php-ext-install curl
+RUN apt-get install -y libxml2-dev && docker-php-ext-install xml
+```
+
 ## docker-php-ext-enable vs. extension
 
 編譯完 php 擴展套件後，我們可以執行以下指令來去啟用該擴展套件
