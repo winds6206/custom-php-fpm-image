@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: custom-php-fpm
+  namespace: default
+  labels:
+    app: custom-php-fpm
+  annotations:
+    configmap.reloader.stakater.com/reload: "custom-php-fpm-config"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: custom-php-fpm
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: custom-php-fpm
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: custom-php-fpm
+        image: winds6206/custom-php-fpm:7.2
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 9000
+        volumeMounts:
+          - name: fpm-php-ini
+            mountPath: /usr/local/etc/php/php.ini
+            subPath: php.ini
+          - name: fpm-custom-www
+            mountPath: /usr/local/etc/php-fpm.d/www.conf
+            subPath: www.conf
+      volumes:
+      - name: fpm-php-ini
+        configMap:
+          name: custom-php-fpm-config
+          items:
+          - key: php.ini
+            path: php.ini
+      - name: fpm-custom-www
+        configMap:
+          name: custom-php-fpm-config
+          items:
+          - key: www.conf
+            path: www.conf
