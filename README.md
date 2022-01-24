@@ -33,7 +33,7 @@ php -i
 
 ## 安裝套件注意事項
 
-在安裝某些擴展套件時，會需要一些相依性套件，例如以下套件
+在安裝某些擴展套件時，會需要一些相依性套件，例如以下套件
 
 ```
 RUN apt-get install -y curl && docker-php-ext-install curl
