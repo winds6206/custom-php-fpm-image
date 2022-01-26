@@ -24,4 +24,4 @@ COPY ./www.conf /usr/local/etc/php-fpm.d/
 ARG TZ=Asia/Taipei
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apt-get clean
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
